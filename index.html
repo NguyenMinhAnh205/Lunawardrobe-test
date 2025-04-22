@@ -13,8 +13,8 @@
               <img src="img/Logo.jpg" alt="Logo" class="logo">
               <span class="title">Luna Wardrobe</span>
             </div>
-             <div class="hamburger">&#9776;</div> <!-- Dấu ba gạch -->
-             <ul class="nav-links">
+              <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
+              <ul id="mainMenu">
               <li><a href="index.html">Trang Chủ</a></li>
               <li><a href="Sanpham.html">Sản Phẩm</a></li>
               <li><a href="Giohang.html">Giỏ Hàng</a></li>
@@ -413,6 +413,15 @@
     </footer>
 </body>
 
+    
+    <script>
+  function toggleMenu() {
+    const menu = document.getElementById("mainMenu");
+    menu.classList.toggle("active");
+  }
+</script>
+
+
 <script>
     function saveProductDetail(product) {
       localStorage.setItem('selectedProduct', JSON.stringify(product));
@@ -465,15 +474,5 @@ hamburger.addEventListener('click', () => {
     }
   </script>
 
-    <script>
-  // Lấy phần tử hamburger và menu
-  const hamburger = document.querySelector('.hamburger');
-  const navLinks = document.querySelector('.nav-links');
-
-  // Thêm sự kiện khi nhấn vào hamburger
-  hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('show'); // Thêm hoặc xóa lớp 'show' để hiển thị hoặc ẩn menu
-  });
-</script>
 
 </html>
