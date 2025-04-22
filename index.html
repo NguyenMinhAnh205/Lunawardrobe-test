@@ -464,5 +464,16 @@ hamburger.addEventListener('click', () => {
       navLinks.classList.toggle("show");
     }
   </script>
-  
+
+    <script>
+  // Lấy phần tử hamburger và menu
+  const hamburger = document.querySelector('.hamburger');
+  const navLinks = document.querySelector('.nav-links');
+
+  // Thêm sự kiện khi nhấn vào hamburger
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('show'); // Thêm hoặc xóa lớp 'show' để hiển thị hoặc ẩn menu
+  });
+</script>
+
 </html>
