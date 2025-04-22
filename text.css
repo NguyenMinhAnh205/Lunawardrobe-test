@@ -130,43 +130,30 @@ footer {
 }
 
 /* Giao diện nhỏ hơn (điện thoại) */
-@media screen and (max-width: 768px) {
-  .hamburger {
-    display: block;
-  }
-
-  .nav-links {
+@media (max-width: 768px) {
+  nav ul {
     display: none;
     flex-direction: column;
-    background-color: #ffe0ec;
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    width: 180px;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    background-color: #333;
   }
 
-  .nav-links.show {
+  nav ul.active {
     display: flex;
   }
 
-  .nav-links li {
-    margin-bottom: 10px;
+  .menu-toggle {
+    display: block;
   }
 
-  .product {
-    width: 90%;
-    max-width: 300px;
+  nav ul li {
+    text-align: center;
+    padding: 10px 0;
   }
 
-  header h1 {
-    font-size: 20px;
-  }
-
-  .title {
-    font-size: 20px;
+  nav ul li a {
+    display: block;
+    width: 100%;
   }
 }
 
