@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luna Wardrobe - Chi tiết sản phẩm</title>
+  <link rel="stylesheet" href="ChitietSanPham.css">
+  <link rel="stylesheet" href="text.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<main>
+  <header>
+    <div class="navbar">
+        <div class="logo-title">
+          <img src="img/Logo.jpg" alt="Logo" class="logo">
+          <span class="title">Luna Wardrobe</span>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html">Trang Chủ</a></li>
+          <li><a href="Sanpham.html">Sản Phẩm</a></li>
+          <li><a href="Giohang.html">Giỏ Hàng</a></li>
+          <li><a href="Login.html">Đăng Nhập</a></li>
+          <li><a href="Gioithieu.html">Giới Thiệu</a></li>
+          <li><a href="Lienhe.html">Liên Hệ</a></li>
+        </ul>
+      </div>
+      
+  </header>
+
+  <div class="product-container">
+    <div class="product-image">
+      <img src="" alt="Hình sản phẩm">
+    </div>
+    <div class="product-details">
+      <h1></h1>
+      <p class="product-price">Giá:</p>
+      <div class="product-material">
+        <p id="materialText"></p>
+      </div>
+      <div class="product-color">
+        <p id="colorText"></p>
+      </div>
+      <div class="product-style">
+        <p id="styleText"></p>
+      </div>      
+
+      <div class="product-description">
+        <p></p>
+      </div>
+
+      <div class="product-rating">
+        <div class="customer-reviews">
+          <h3>Đánh giá của khách hàng</h3>
+          <ul id="reviews-list">
+            <!-- Đánh giá sẽ được render tại đây -->
+          </ul>
+          <textarea id="review-text" placeholder="Viết đánh giá của bạn..."></textarea>
+          <button onclick="submitReview()">Gửi đánh giá</button>
+        </div>
+        
+        <span>⭐⭐⭐☆</span>
+        <span>(200 đánh giá)</span>
+      </div>
+
+      <div class="product-options">
+        <label for="size">Kích thước:</label>
+        <select id="size" name="size">
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+        </select>
+      </div>
+
+      <button class="buy-button">Mua Ngay</button>
+      <button class="add-cart" onclick="addToCart()">Thêm vào giỏ hàng</button>
+
+
+      <div class="like-container">
+        <div class="fb-like" data-href="https://facebook.com" data-width="" data-layout="button" data-action="like" data-size="small" data-share="true"></div>
+      </div>
+
+      <div class="share-container">
+        <a href="https://facebook.com/sharer/sharer.php?u=https://yourwebsite.com" id="fb-share-button" target="_blank">Chia sẻ qua Facebook</a>
+      </div>
+
+      <div class="fb-comments" data-href="https://yourwebsite.com" data-width="100%" data-numposts="3"></div>
+
+      <br>
+      <a href="Sanpham.html">← Quay lại sản phẩm</a>
+    </div>
+  </div>
+  <footer>
+    <p>Luna Wardrobe &copy; 2025. All rughts reserved.</p>
+</footer>
+</main>
+
+<script>
+  function addToCart() {
+    const product = JSON.parse(localStorage.getItem('selectedProduct'));
+    const size = document.getElementById("size").value;
+  
+    if (!product) {
+      alert("Không tìm thấy sản phẩm để thêm vào giỏ hàng!");
+      return;
+    }
+  
+    product.size = size;
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+  
+    alert("Đã thêm vào giỏ hàng với size: " + size + "!");
+  }
+  
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+  
+  function getProductId() {
+    const product = JSON.parse(localStorage.getItem("selectedProduct"));
+    return product && product.name ? product.name : "unknown";
+  }
+  
+  function loadReviews() {
+    const productId = getProductId();
+    const reviews = JSON.parse(localStorage.getItem("reviews_" + productId)) || [];
+    const reviewsList = document.getElementById("reviews-list");
+    reviewsList.innerHTML = "";
+  
+    reviews.forEach((review, index) => {
+      const li = document.createElement("li");
+      li.textContent = review;
+  
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "🗑 Xóa";
+      deleteBtn.style.marginLeft = "10px";
+      deleteBtn.style.color = "red";
+      deleteBtn.style.background = "none";
+      deleteBtn.style.border = "none";
+      deleteBtn.style.cursor = "pointer";
+  
+      deleteBtn.onclick = () => deleteReview(index);
+  
+      li.appendChild(deleteBtn);
+      reviewsList.appendChild(li);
+    });
+  }
+  
+  function submitReview() {
+    const productId = getProductId();
+    const textarea = document.getElementById("review-text");
+    const reviewText = textarea.value.trim();
+    if (reviewText === "") return alert("Vui lòng nhập nội dung đánh giá.");
+  
+    const reviews = JSON.parse(localStorage.getItem("reviews_" + productId)) || [];
+    reviews.push(reviewText);
+    localStorage.setItem("reviews_" + productId, JSON.stringify(reviews));
+  
+    textarea.value = "";
+    loadReviews();
+  }
+  
+  function deleteReview(index) {
+    const productId = getProductId();
+    const reviews = JSON.parse(localStorage.getItem("reviews_" + productId)) || [];
+    if (index >= 0 && index < reviews.length) {
+      if (confirm("Bạn có chắc chắn muốn xoá đánh giá này?")) {
+        reviews.splice(index, 1);
+        localStorage.setItem("reviews_" + productId, JSON.stringify(reviews));
+        loadReviews();
+      }
+    }
+  }
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    const product = JSON.parse(localStorage.getItem('selectedProduct'));
+  
+    if (product) {
+      document.querySelector(".product-details h1").textContent = product.name || "Không có tên sản phẩm";
+      document.querySelector(".product-image img").src = product.img || "img/default.jpg";
+      document.querySelector(".product-price").textContent = "Giá: " + (product.price ? product.price + " VND" : "Liên hệ");
+      document.querySelector(".product-description p").textContent = product.desc || "Không có mô tả";
+  
+      document.getElementById("materialText").textContent = "Chất liệu: " + (product.material || "Đang cập nhật");
+      document.getElementById("colorText").textContent = "Màu sắc: " + (product.color || "Đang cập nhật");
+      document.getElementById("styleText").textContent = "Kiểu dáng: " + (product.style || "Đang cập nhật");
+    }
+  
+    loadReviews(); // Gọi khi trang vừa tải
+  });
+  </script>
+  
+</body>
+</html>
